@@ -1,0 +1,111 @@
+---
+import { t, locales, type Locale } from "../i18n/translations";
+
+interface Props {
+  locale: Locale;
+  title: string;
+}
+
+const { locale, title } = Astro.props;
+const s = t(locale);
+
+const currentPath = Astro.url.pathname.replace(new RegExp(`^/${locale}`), "") || "/";
+
+function localizedPath(target: Locale) {
+  return `/${target}${currentPath === "/" ? "" : currentPath}`;
+}
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={s.home.heroSubtitle} />
+    <title>{title} · {s.siteName}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href={`/${locale}/`}>
+        <strong>{s.siteName}</strong>
+        <span>{s.tagline}</span>
+      </a>
+      <nav>
+        <a href={`/${locale}/`}>{s.nav.home}</a>
+        <a href={`/${locale}/rooms`}>{s.nav.rooms}</a>
+        <a href={`/${locale}/gallery`}>{s.nav.gallery}</a>
+        <a href={`/${locale}/contact`}>{s.nav.contact}</a>
+        <a class="cta" href={`/${locale}/rooms`}>{s.nav.book}</a>
+      </nav>
+      <div class="lang-switch">
+        {locales.map((l) => (
+          <a href={localizedPath(l)} aria-current={l === locale ? "page" : undefined}>{l.toUpperCase()}</a>
+        ))}
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <p>{s.siteName} — {s.contact.address}</p>
+    </footer>
+
+    <style>
+      :root {
+        --bg: #fbf7f2;
+        --ink: #2c2420;
+        --accent: #6a7f5e;
+        --accent-dark: #4f5f46;
+        --muted: #8a7f74;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: "Georgia", "Iowan Old Style", serif;
+        background: var(--bg);
+        color: var(--ink);
+        line-height: 1.6;
+      }
+      .site-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+        padding: 1.25rem 2rem;
+        border-bottom: 1px solid rgba(0,0,0,0.08);
+      }
+      .brand {
+        display: flex;
+        flex-direction: column;
+        text-decoration: none;
+        color: var(--ink);
+        line-height: 1.2;
+      }
+      .brand strong { font-size: 1.4rem; }
+      .brand span { font-size: 0.85rem; color: var(--muted); }
+      nav { display: flex; gap: 1.25rem; align-items: center; flex-wrap: wrap; }
+      nav a { text-decoration: none; color: var(--ink); font-size: 0.95rem; }
+      nav a.cta {
+        background: var(--accent);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+      }
+      nav a.cta:hover { background: var(--accent-dark); }
+      .lang-switch { display: flex; gap: 0.5rem; font-size: 0.8rem; }
+      .lang-switch a { text-decoration: none; color: var(--muted); }
+      .lang-switch a[aria-current="page"] { color: var(--ink); font-weight: bold; }
+      main { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+      .site-footer {
+        text-align: center;
+        padding: 2rem;
+        color: var(--muted);
+        font-size: 0.85rem;
+        border-top: 1px solid rgba(0,0,0,0.08);
+      }
+    </style>
+  </body>
+</html>

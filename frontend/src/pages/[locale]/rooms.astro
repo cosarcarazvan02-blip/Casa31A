@@ -1,0 +1,18 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import RoomsList from "../../components/RoomsList";
+import { t, localeParams, type Locale } from "../../i18n/translations";
+
+export function getStaticPaths() {
+  return localeParams();
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const s = t(locale);
+const apiBaseUrl = import.meta.env.PUBLIC_API_BASE_URL;
+---
+
+<BaseLayout locale={locale} title={s.rooms.title}>
+  <h1>{s.rooms.title}</h1>
+  <RoomsList client:load apiBaseUrl={apiBaseUrl} strings={s.rooms} bookingStrings={s.booking} />
+</BaseLayout>

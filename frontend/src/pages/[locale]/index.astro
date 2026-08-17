@@ -1,0 +1,46 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { t, localeParams, type Locale } from "../../i18n/translations";
+
+export function getStaticPaths() {
+  return localeParams();
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const s = t(locale);
+---
+
+<BaseLayout locale={locale} title={s.home.heroTitle}>
+  <section class="hero">
+    <h1>{s.home.heroTitle}</h1>
+    <p>{s.home.heroSubtitle}</p>
+    <a class="cta" href={`/${locale}/rooms`}>{s.home.cta}</a>
+  </section>
+
+  <section class="about">
+    <h2>{s.home.aboutTitle}</h2>
+    <p>{s.home.aboutBody}</p>
+  </section>
+
+  <style>
+    .hero {
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+    .hero h1 { font-size: 2.4rem; margin-bottom: 0.5rem; }
+    .hero p { max-width: 40rem; margin: 0 auto 1.5rem; color: #5a5148; }
+    .cta {
+      display: inline-block;
+      background: #6a7f5e;
+      color: white;
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+    }
+    .about {
+      max-width: 42rem;
+      margin: 2rem auto;
+      text-align: center;
+    }
+  </style>
+</BaseLayout>

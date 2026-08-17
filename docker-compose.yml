@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: casa31a-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: casa31a
+      POSTGRES_PASSWORD: casa31a_dev
+      POSTGRES_DB: casa31a
+    ports:
+      - "5432:5432"
+    volumes:
+      - casa31a-postgres-data:/var/lib/postgresql/data
+
+volumes:
+  casa31a-postgres-data:

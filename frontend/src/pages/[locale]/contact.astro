@@ -1,0 +1,70 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { t, localeParams, type Locale } from "../../i18n/translations";
+
+export function getStaticPaths() {
+  return localeParams();
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const s = t(locale);
+
+const contactEmail = "contact@casa31a.ro";
+const contactPhone = "+40 700 000 000";
+---
+
+<BaseLayout locale={locale} title={s.contact.title}>
+  <h1>{s.contact.title}</h1>
+
+  <div class="contact-grid">
+    <div class="details">
+      <p><strong>{s.contact.address}</strong></p>
+      <p><a href={`mailto:${contactEmail}`}>{contactEmail}</a></p>
+      <p><a href={`tel:${contactPhone.replace(/\s/g, "")}`}>{contactPhone}</a></p>
+    </div>
+
+    <form class="contact-form" action={`mailto:${contactEmail}`} method="get" enctype="text/plain">
+      <label>
+        {s.contact.formName}
+        <input type="text" name="name" required />
+      </label>
+      <label>
+        {s.contact.formEmail}
+        <input type="email" name="email" required />
+      </label>
+      <label>
+        {s.contact.formMessage}
+        <textarea name="message" rows="5" required></textarea>
+      </label>
+      <button type="submit">{s.contact.formSubmit}</button>
+    </form>
+  </div>
+
+  <style>
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+      gap: 2rem;
+      align-items: start;
+    }
+    .details a { color: inherit; }
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-form label { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.9rem; }
+    .contact-form input, .contact-form textarea {
+      padding: 0.5rem;
+      border: 1px solid rgba(0,0,0,0.2);
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 1rem;
+    }
+    .contact-form button {
+      align-self: flex-start;
+      background: #6a7f5e;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</BaseLayout>

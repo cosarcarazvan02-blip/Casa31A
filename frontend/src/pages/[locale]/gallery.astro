@@ -1,0 +1,39 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { t, localeParams, type Locale } from "../../i18n/translations";
+
+export function getStaticPaths() {
+  return localeParams();
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const s = t(locale);
+
+const placeholderImages = Array.from({ length: 6 }, (_, i) => i + 1);
+---
+
+<BaseLayout locale={locale} title={s.gallery.title}>
+  <h1>{s.gallery.title}</h1>
+  <div class="grid">
+    {placeholderImages.map((n) => (
+      <div class="placeholder">Foto {n}</div>
+    ))}
+  </div>
+
+  <style>
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+      gap: 1rem;
+    }
+    .placeholder {
+      aspect-ratio: 4 / 3;
+      background: #e4ded4;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #8a7f74;
+    }
+  </style>
+</BaseLayout>
