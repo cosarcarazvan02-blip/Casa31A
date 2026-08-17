@@ -1,0 +1,6 @@
+@Casa31A.Api_HostAddress = http://localhost:5244
+
+GET {{Casa31A.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

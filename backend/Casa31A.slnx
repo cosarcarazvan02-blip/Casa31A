@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Casa31A.Api/Casa31A.Api.csproj" />
+  <Project Path="Casa31A.Application/Casa31A.Application.csproj" />
+  <Project Path="Casa31A.Domain/Casa31A.Domain.csproj" />
+  <Project Path="Casa31A.Infrastructure/Casa31A.Infrastructure.csproj" />
+</Solution>
